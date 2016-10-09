@@ -1,8 +1,3 @@
----
-layout: page
-title: http://gogs.inmyopenshift.cloud
----
-
 # Deploy your own git server with Gogs container!
 
 With these templates you'll easily deploy an integrated git server on your existing OpenShift v3 platform.
