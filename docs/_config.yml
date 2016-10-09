@@ -1,0 +1,22 @@
+# Setup
+title:        gogs<wbr>.inmyopenshift.cloud
+tagline:      Openshift ready template for Gogs git server!
+baseurl:      ""
+paginate:     1
+github:       https://github.com/alezzandro/gogs-inmyopenshift-cloud
+download:     https://github.com/alezzandro/gogs-inmyopenshift-cloud/tarball/master
+
+gradient_color1: "#CC0000"
+gradient_color2: "#C2531B"
+
+# About/contact
+author:
+  name:       Alessandro Arrichiello
+  url:        http://gogs.inmyopenshift.cloud 
+
+# Gems
+gems:
+  - jekyll-paginate
+
+#Others
+markdown: kramdown

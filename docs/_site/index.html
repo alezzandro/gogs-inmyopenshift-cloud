@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  
+  <head>
+  <meta charset="UTF-8">
+  <title>gogs<wbr>.inmyopenshift.cloud</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#CC0000">
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/css/cayman.css">
+</head>
+
+
+  <body>
+    <section class="page-header" style="background-image:linear-gradient(120deg, #CC0000, #C2531B);">
+  <h1 class="project-name">gogs<wbr>.inmyopenshift.cloud</h1>
+  <h2 class="project-tagline">Openshift ready template for Gogs git server!</h2>
+  <a href="https://github.com/alezzandro/gogs-inmyopenshift-cloud" class="btn">View on GitHub</a>
+  <a href="https://github.com/alezzandro/gogs-inmyopenshift-cloud/tarball/master" class="btn">Download .tar.gz</a>
+  <a href="http://inmyopenshift.cloud" class="btn">Other templates</a>
+</section>
+
+
+    <section class="main-content">
+      
+      <h1 id="deploy-your-own-git-server-with-gogs-container">Deploy your own git server with Gogs container!</h1>
+
+<p>With these templates you’ll easily deploy an integrated git server on your existing OpenShift v3 platform.
+<br />
+<a href="http://wordpress.inmyopenshift.cloud">http://gogs.inmyopenshift.cloud</a></p>
+
+<h2 id="overview">Overview</h2>
+<p>I’ll describe you how to deploy a Gogs container with/without internal mysql server (you’ll be able to easily replace mysql with your own favourite sql server).
+Keep in mind that all the setup is stateless: gogs and mysql container is shipped with emptyDir volume, you should replace it with a persistent volume to ensure data saving.</p>
+
+<h2 id="requirements">Requirements</h2>
+<p>This is a briefly list of the necessary requirements before trying run the template:</p>
+
+<ul>
+  <li>Internet access (at least docker.io in whitelist) from your working OpenShift platform</li>
+  <li>RUNASUSER field for ‘restricted’ Security Context Constraint (scc) set to ‘RunAsAny’. This is necessary for letting WordPress official container to run as root. -&gt; ($ <i>oc edit scc restricted</i>)</li>
+  <li>Remove “SETUID” and “SETGID” values from requiredDropCapabilities in default ‘restricted’ Security Context Constraint (scc) -&gt; ($ <i>oc edit scc restricted</i>)</li>
+</ul>
+
+<h2 id="deploy-a-gogs-container-backed-by-mysql">Deploy a gogs container backed by mysql</h2>
+<h3 id="how-to">How-to</h3>
+<p>Easy and fast deployment in few steps:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/alezzandro/gogs-inmyopenshift-cloud.git
+
+$ cd gogs-inmyopenshift-cloud
+
+$ oc create -f gogs-mysql-template.yaml
+
+$ oc new-app gogs-mysql
+
+</code></pre>
+</div>
+
+<p>At end of the deployment you have to get the ClusterIP for your mysql service:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ oc get svc/mysql
+</code></pre>
+</div>
+
+<p>And the username/password/dbname in case you left blank:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ oc describe dc/mysql
+</code></pre>
+</div>
+
+<p>Take the previous mysql service IP address and username/password/dbname for configuring your gogs server via its web interface.</p>
+
+<h3 id="advanced-configuration">Advanced configuration</h3>
+<p>You’ll find below a list of the all available fields for advanced configuration:</p>
+
+<ul>
+  <li>APPLICATION_DOMAIN: The exposed hostname that will route to the Gogs service, if left blank a value will be defaulted.</li>
+  <li>DATABASE_NAME:  Database Name</li>
+  <li>DATABASE_USER: Database User</li>
+  <li>DATABASE_PASSWORD: Database Password</li>
+  <li>MEMORY_MYSQL_LIMIT: Maximum amount of memory the MySQL container can use.</li>
+  <li>DATABASE_SERVICE_NAME: Database Service Name</li>
+</ul>
+
+<p><b>Please note</b>: if you don’t set any of the previous fields they will be defaulted/random generated.</p>
+
+<h2 id="deploy-a-gogs-container-standalone-backed-by-sqlite">Deploy a gogs container standalone (backed by sqlite)</h2>
+<h3 id="how-to-1">How-to</h3>
+<p>Easy and fast deployment in few steps:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/alezzandro/gogs-inmyopenshift-cloud.git
+
+$ cd gogs-inmyopenshift-cloud
+
+$ oc create -f gogs-standalone-template.yaml
+
+$ oc new-app gogs-standalone
+
+</code></pre>
+</div>
+
+<p>At end of the deployment, during first gogs server configuration you should choose sqlite for backing your data (or use an external mysql service).</p>
+
+<h3 id="advanced-configuration-1">Advanced configuration</h3>
+<p>You’ll find below a list of the all available fields for advanced configuration:</p>
+
+<ul>
+  <li>APPLICATION_DOMAIN: The exposed hostname that will route to the Gogs service, if left blank a value will be defaulted.</li>
+</ul>
+
+<p><b>Please note</b>: if you don’t set any of the previous fields they will be defaulted/random generated.</p>
+
+
+
+      <footer class="site-footer">
+  <span class="site-footer-owner"><a href="">gogs<wbr>.inmyopenshift.cloud</a> is maintained by <a href="http://gogs.inmyopenshift.cloud">Alessandro Arrichiello</a>.</span>
+  <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/pietromenna/jekyll-cayman-theme">Cayman theme</a> by <a href="http://github.com/jasonlong">Jason Long</a>.</span>
+</footer>
+
+
+    </section>
+
+  </body>
+</html>
